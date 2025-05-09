@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react"
 
 export default function ProductCarousel({ products }: { products: any[] }) {
   const [currentPage, setCurrentPage] = useState(0)
-  const productsPerPage = 2 // Mostrar 2 productos por página
+  const productsPerPage = 3 // Mostrar 2 productos por página
 
   // Calcular el número total de páginas
   const totalPages = Math.ceil(products.length / productsPerPage)
@@ -83,7 +83,7 @@ export default function ProductCarousel({ products }: { products: any[] }) {
 
         {/* Carrusel con navegación */}
         <div className="relative">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {currentProducts.map((product, idx) => (
               <div key={idx} className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm">
                 <div className="h-32 overflow-hidden relative">
