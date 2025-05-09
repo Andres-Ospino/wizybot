@@ -17,7 +17,7 @@ export default function MessageInput({ onSend }: { onSend: (msg: string) => void
       <input
         type="text"
         className="flex-1 bg-transparent border-none outline-none py-2 px-1 text-gray-700 placeholder-gray-400"
-        placeholder="Escribe un mensaje..."
+        placeholder="Type a message..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}

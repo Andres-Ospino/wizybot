@@ -16,7 +16,7 @@ interface Message {
 
 export default function ChatWindow() {
   const [messages, setMessages] = useState<Message[]>([
-    { text: "¡Hola! ¿En qué puedo ayudarte hoy?", sender: "bot", type: "text" },
+    { text: "Hi there! How can I assist you today?", sender: "bot", type: "text" },
   ])
   const [typing, setTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -30,28 +30,21 @@ export default function ChatWindow() {
   }, [messages, typing])
 
   const sendMessage = async (text: string) => {
-    // Añadir mensaje del usuario al chat
     const newMsg: Message = { text, sender: "user", type: "text" }
     setMessages((prev) => [...prev, newMsg])
-
-    // Mostrar indicador de escritura
     setTyping(true)
 
-    // Esperar 3 segundos según los requisitos
     setTimeout(async () => {
       let botMsg: Message
 
-      // Verificar si el usuario quiere recomendaciones de productos
       if (
         text.toLowerCase().includes("product") ||
-        text.toLowerCase().includes("productos") ||
-        text.toLowerCase().includes("recomendaciones")
+        text.toLowerCase().includes("recommen")
       ) {
         try {
-          console.log("Solicitando productos a la API...")
-          // Obtener productos de la API de Wizybot
+          console.log("Requesting products from the API...")
           const products = await fetchProducts()
-          console.log("Productos obtenidos:", products)
+          console.log("Products fetched:", products)
 
           if (products && products.length > 0) {
             botMsg = {
@@ -62,30 +55,29 @@ export default function ChatWindow() {
             }
           } else {
             botMsg = {
-              text: "Lo siento, no pude obtener recomendaciones de productos en este momento. Por favor, inténtalo más tarde.",
+              text: "Sorry, I couldn't fetch product recommendations right now. Please try again later.",
               sender: "bot",
               type: "text",
             }
           }
         } catch (error) {
-          console.error("Error al obtener productos:", error)
+          console.error("Error fetching products:", error)
           botMsg = {
-            text: "Lo siento, no pude obtener recomendaciones de productos en este momento. Por favor, inténtalo más tarde.",
+            text: "Sorry, I couldn't fetch product recommendations right now. Please try again later.",
             sender: "bot",
             type: "text",
           }
         }
       } else {
-        // Generar una respuesta aleatoria según los requisitos
         const responses = [
-          "Entiendo que necesitas ayuda. ¿Cómo puedo asistirte hoy?",
-          "Gracias por tu mensaje. ¿Hay algo específico que estés buscando?",
-          "¡Estoy aquí para ayudar! ¿Podrías proporcionar más detalles sobre lo que necesitas?",
-          "Gracias por contactarnos. ¿Te gustaría ver nuestras recomendaciones de productos?",
-          "Estaré encantado de ayudarte con eso. ¿Tienes alguna pregunta?",
-          "Estoy procesando tu solicitud. ¿Hay algo más que te gustaría saber?",
-          "Puedo ayudarte a encontrar lo que buscas. ¿Podrías ser más específico?",
-          "Gracias por contactarnos. ¿En qué más puedo ayudarte hoy?",
+          "I understand you need help. How can I assist you today?",
+          "Thanks for your message. Are you looking for something specific?",
+          "I'm here to help! Could you provide more details about what you need?",
+          "Thanks for reaching out. Would you like to see our product recommendations?",
+          "I'd be happy to help with that. Do you have any questions?",
+          "Processing your request. Is there anything else you'd like to know?",
+          "I can help you find what you're looking for. Could you be more specific?",
+          "Thanks for contacting us. How else can I help you today?",
         ]
 
         const randomResponse = responses[Math.floor(Math.random() * responses.length)]
@@ -97,10 +89,9 @@ export default function ChatWindow() {
         }
       }
 
-      // Ocultar indicador de escritura y añadir respuesta del bot
       setTyping(false)
       setMessages((prev) => [...prev, botMsg])
-    }, 3000) // 3 segundos de retraso según lo especificado en los requisitos
+    }, 3000)
   }
 
   return (
@@ -124,7 +115,7 @@ export default function ChatWindow() {
         </div>
         <div>
           <h1 className="font-bold text-xl">WizyBot</h1>
-          <p className="text-xs text-white/70">Asistente Virtual</p>
+          <p className="text-xs text-white/70">Virtual Assistant</p>
         </div>
       </div>
 
@@ -134,7 +125,7 @@ export default function ChatWindow() {
             <ProductCarousel key={idx} products={msg.products || []} />
           ) : (
             <MessageBubble key={idx} message={msg.text} sender={msg.sender} />
-          ),
+          )
         )}
         {typing && <TypingDots />}
         <div ref={messagesEndRef} />
